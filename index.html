@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container" >
+  <form action="" id="addform">
+        <label for="price">Selling price</label>
+        <input type="number" id="price">
+        <label for="product">Product Name</label>
+        <input type="text" id="product">
+        <button>Add product</button>
+    </form>
+
+     <h2>Products</h2>
+    <ul id="ullist"></ul>
+
+    <div id="totalprice"> </div>
+
+
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+
+<script>
+
+
+var form =document.getElementById("addform");
+var ul=document.getElementById("ullist");
+var div=document.getElementById("totalprice");
+
+
+
+form.addEventListener("submit", adding= function(e)  {
+    e.preventDefault(); 
+var price=document.getElementById("price").value;
+var product=document.getElementById("product").value;
+var totalprice;
+
+let obj={
+price:price,
+product:product
+}
+
+console.log(obj)
+
+
+axios.post('https://crudcrud.com/api/d8328e975b9d414d83a08860bba71eed/storedata',obj)
+.then((response)=>{
+    showOutput(obj);
+    console.log(response.data)
+})
+.catch((err)=>{
+    console.log(err)
+})
+
+totalOutput();
+// totalprice=totalOutput();
+// console.log(totalprice);
+// div.appendChild(document.createTextNode(totalprice));
+
+
+
+
+});
+
+
+
+document.addEventListener("DOMContentLoaded",()=>{
+    axios.get('https://crudcrud.com/api/d8328e975b9d414d83a08860bba71eed/storedata')
+.then((response)=>{
+    
+    console.log(response)
+    console.log(response.data)
+
+    for(var i=0;i<response.data.length;i++){
+
+
+
+        showOutput(response.data[i]);
+
+
+
+    }
+
+    totalOutput();
+})
+.catch((err)=>{
+    console.log(err)
+})
+
+});
+
+
+
+
+function showOutput(obj){
+
+var list=document.createElement("li");
+
+list.appendChild(document.createTextNode(obj.price+" - "+obj.product + " "));
+
+var btn=document.createElement("button");
+btn.className="delete"
+btn.appendChild(document.createTextNode("delete product") );
+list.appendChild(btn);
+
+
+list.setAttribute('data-id',obj._id);
+
+
+ul.appendChild(list);
+
+}
+
+
+
+ul.addEventListener('click',removeitem=function (e){
+if(e.target.classList.contains('delete')){
+    console.log(e.target);
+   var li=e.target.parentElement; 
+   var id = li.getAttribute('data-id');
+    console.log(id);
+
+    
+
+axios.delete(`https://crudcrud.com/api/d8328e975b9d414d83a08860bba71eed/storedata/${id}`)
+   .then((response) => {
+    console.log(response.data);
+                        ul.removeChild(li);
+                        totalOutput();
+                    })
+    .catch((err) => {
+                        console.log(err);
+                    });
+
+
+
+
+                }
+
+});
+
+
+
+
+
+function totalOutput(obj){
+
+var sum=0;
+
+    axios.get('https://crudcrud.com/api/d8328e975b9d414d83a08860bba71eed/storedata')
+.then((response)=>{
+    
+    console.log(response)
+    console.log(response.data)
+
+    for(var i=0;i<response.data.length;i++){
+
+
+
+        sum=sum+parseInt(response.data[i].price);
+
+
+
+    }
+
+    div.textContent = "Total value worth of Products: " + sum ;
+    div.style.fontWeight = "bold";
+    div.style.fontSize = "16px";
+
+})
+.catch((err)=>{
+    console.log(err)
+})
+
+
+    
+
+
+}
+
+
+
+</script>
+</body>
+</html>
