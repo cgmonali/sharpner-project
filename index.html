@@ -47,7 +47,7 @@ product:product
 console.log(obj)
 
 
-axios.post('https://crudcrud.com/api/d8328e975b9d414d83a08860bba71eed/storedata',obj)
+axios.post('https://crudcrud.com/api/4737fdf11d3e47e0a593cb3784695740/storedata',obj)
 .then((response)=>{
     showOutput(obj);
     console.log(response.data)
@@ -56,7 +56,7 @@ axios.post('https://crudcrud.com/api/d8328e975b9d414d83a08860bba71eed/storedata'
     console.log(err)
 })
 
-totalOutput();
+totalOutput(obj);
 // totalprice=totalOutput();
 // console.log(totalprice);
 // div.appendChild(document.createTextNode(totalprice));
@@ -69,7 +69,7 @@ totalOutput();
 
 
 document.addEventListener("DOMContentLoaded",()=>{
-    axios.get('https://crudcrud.com/api/d8328e975b9d414d83a08860bba71eed/storedata')
+    axios.get('https://crudcrud.com/api/4737fdf11d3e47e0a593cb3784695740/storedata')
 .then((response)=>{
     
     console.log(response)
@@ -85,7 +85,7 @@ document.addEventListener("DOMContentLoaded",()=>{
 
     }
 
-    totalOutput();
+    totalOutput(response.data);
 })
 .catch((err)=>{
     console.log(err)
@@ -126,11 +126,11 @@ if(e.target.classList.contains('delete')){
 
     
 
-axios.delete(`https://crudcrud.com/api/d8328e975b9d414d83a08860bba71eed/storedata/${id}`)
+axios.delete(`https://crudcrud.com/api/4737fdf11d3e47e0a593cb3784695740/storedata/${id}`)
    .then((response) => {
     console.log(response.data);
                         ul.removeChild(li);
-                        totalOutput();
+                        totalOutput(response.data);
                     })
     .catch((err) => {
                         console.log(err);
@@ -151,7 +151,7 @@ function totalOutput(obj){
 
 var sum=0;
 
-    axios.get('https://crudcrud.com/api/d8328e975b9d414d83a08860bba71eed/storedata')
+    axios.get('https://crudcrud.com/api/4737fdf11d3e47e0a593cb3784695740/storedata')
 .then((response)=>{
     
     console.log(response)
